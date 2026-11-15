@@ -2,6 +2,11 @@
   command = "npm run build"
   publish = "dist"
 
+# Node 22 for the JSON imports. The dev tools (netlify-cli, decap-server) are only for this computer, so Netlify skips them.
+[build.environment]
+  NODE_VERSION = "22"
+  NPM_FLAGS = "--omit=dev"
+
 [functions]
   directory = "netlify/functions"
   node_bundler = "esbuild"
