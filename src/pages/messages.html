@@ -1,0 +1,30 @@
+<!--meta {"title":"Messages for Oli and Joe · oliMoto","description":"Send Oli and Joe a message of support before they set off around the world.","slug":"messages"} -->
+<section class="band band--olive">
+  <div class="wrap split">
+    <div>
+      <span class="kicker">Messages</span>
+      <h1>Wish them luck</h1>
+      <p class="lede" style="margin-top:22px">Send Oli and Joe a message before they set off, and keep them coming once the ride starts.</p>
+    </div>
+    <form class="card" data-message-form novalidate style="background:var(--canvas-2);color:var(--ink);border-color:var(--charcoal)">
+      <div class="field"><label for="m-name">Your name</label><input id="m-name" type="text" name="name" required maxlength="40" autocomplete="given-name"></div>
+      <div class="field"><label for="m-place">Where you're from <span class="hint">(optional)</span></label><input id="m-place" type="text" name="place" maxlength="40" placeholder="Alford, Aberdeen, Sydney…"></div>
+      <div class="field"><label for="m-msg">Message</label><textarea id="m-msg" name="message" required maxlength="280" rows="4"></textarea><span class="counter" aria-live="off"></span></div>
+      <div class="hp" aria-hidden="true"><label for="m-company">Company</label><input id="m-company" type="text" name="company" tabindex="-1" autocomplete="off"></div>
+      <ul class="rules small">
+        <li>Joe reads every message before it goes on the wall.</li>
+        <li>Swearing, insults and links are blocked automatically.</li>
+        <li>Your name, place and message will be shown publicly once approved.</li>
+      </ul>
+      <button class="btn btn--hivis" type="submit">Send message</button>
+      <p class="form-status" role="status" aria-live="polite"></p>
+    </form>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <div class="band-head"><div><span class="kicker">The wall</span><h2>From supporters</h2></div></div>
+    <div class="wall" data-wall></div>
+  </div>
+</section>

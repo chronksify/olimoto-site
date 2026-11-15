@@ -1,0 +1,16 @@
+{
+  "departure": {
+    "date": "2027-07-18",
+    "time": "12:00",
+    "place": "Shirlaws Motorcycles"
+  },
+  "londonStart": {
+    "date": "2027-07-21"
+  },
+  "fundraising": {
+    "raised": 3040,
+    "target": 20000,
+    "asOf": "2026-11-09",
+    "url": "https://www.justgiving.com/page/ian-purkis-2"
+  }
+}

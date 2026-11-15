@@ -1,0 +1,33 @@
+<!--meta {"title":"Supporter post maker · oliMoto","description":"Make the animated Official Supporter post.","slug":"studio","head":"<meta name=\"robots\" content=\"noindex, nofollow\"><link rel=\"stylesheet\" href=\"https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700;800&display=swap\">","scripts":"<script src=\"/assets/js/studio.js\" defer></script>"} -->
+<!-- Not linked from the site. For the team: makes the animated supporter announcement for Instagram and Facebook. -->
+<section class="band studio">
+  <div class="wrap studio__grid">
+    <div>
+      <p class="kicker">For the team</p>
+      <h1 class="studio__title">Supporter post maker</h1>
+      <p>Choose the supporter's logo, check the words, then download the video. It takes about 7 seconds to record. The logo file stays on this computer.</p>
+      <form class="studio__form" data-studio-form>
+        <div class="field"><label for="st-logo">Supporter's logo</label><input id="st-logo" type="file" name="logo" accept="image/*"></div>
+        <div class="field"><label for="st-head">Heading</label><input id="st-head" type="text" name="head" value="Official supporter"></div>
+        <div class="field"><label for="st-lines">Lines</label><textarea id="st-lines" name="lines" rows="3">Supporting oliMotos
+Guinness World Record
+attempt</textarea></div>
+        <div class="field"><label for="st-url">Web address</label><input id="st-url" type="text" name="url" value="www.olimoto.co.uk"></div>
+        <fieldset class="studio__pick"><legend>Background</legend>
+          <label><input type="radio" name="bg" value="black" checked> Black</label>
+          <label><input type="radio" name="bg" value="white"> White</label>
+        </fieldset>
+        <fieldset class="studio__pick"><legend>Shape</legend>
+          <label><input type="radio" name="size" value="square" checked> Square post</label>
+          <label><input type="radio" name="size" value="story"> Story or reel</label>
+        </fieldset>
+        <div class="btn-row">
+          <button class="btn btn--hivis" type="submit">Download video</button>
+          <button class="btn btn--line" type="button" data-studio-replay>Replay</button>
+        </div>
+        <p class="form-status" role="status" data-studio-status></p>
+      </form>
+    </div>
+    <div class="studio__stage"><canvas data-studio width="1080" height="1080" aria-label="Preview of the supporter post animation"></canvas></div>
+  </div>
+</section>

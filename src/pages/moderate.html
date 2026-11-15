@@ -1,0 +1,15 @@
+<!--meta {"title":"Message moderation · oliMoto","description":"Moderation queue for supporter messages.","slug":"moderate","head":"<meta name=\"robots\" content=\"noindex, nofollow\">"} -->
+<section class="band">
+  <div class="wrap" data-moderate style="max-width:820px">
+    <span class="kicker">For Joe</span>
+    <h1 style="font-size:clamp(40px,6vw,72px)">Messages to check</h1>
+    <p class="lede" style="margin-top:16px">Approve a message to put it on the wall. Reject it to delete it. Messages with swearing, insults or links never reach this list.</p>
+    <form id="mod-key-form" class="inline" style="margin-top:20px">
+      <label for="mod-key" class="label" style="width:100%">Moderation key</label>
+      <input id="mod-key" type="password" autocomplete="current-password" required>
+      <button class="btn btn--dark" type="submit">Open</button>
+    </form>
+    <p id="mod-status" class="form-status" role="status"></p>
+    <div id="mod-out"></div>
+  </div>
+</section>

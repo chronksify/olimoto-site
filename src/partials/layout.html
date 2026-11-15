@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en-GB" data-depart="{{depart-iso}}" data-depart-label="{{depart-date}}" data-london-label="{{london-date}}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>document.documentElement.classList.add("js")</script>
+<title>{{title}}</title>
+<meta name="description" content="{{description}}">
+<meta property="og:title" content="{{title}}">
+<meta property="og:description" content="{{description}}">
+<meta property="og:site_name" content="oliMoto">
+<meta name="theme-color" content="#23251f">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;800&family=Barlow:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400;1,8..60,600&family=Saira+Stencil+One&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/assets/css/site.css">
+{{head}}
+</head>
+<body class="page-{{slug}}">
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="wrap header-row">
+    <a class="logo" href="/" aria-label="oliMoto home"><canvas class="logo__mark" data-logo="once" aria-hidden="true"></canvas><span class="logo__word"><span>oli</span>Moto</span></a>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
+    <nav id="site-nav" class="site-nav" aria-label="Main">
+      <a href="/expedition"{{active:expedition}}>Expedition</a>
+      <a href="/team"{{active:team}}>Team</a>
+      <a href="/updates"{{active:updates}}>Updates</a>
+      <a href="/messages"{{active:messages}}>Messages</a>
+      <a href="/live"{{active:live}}>Live <small>{{depart-month}}</small></a>
+      <a class="btn btn--line" href="/sponsor"{{active:sponsor}}>Sponsor</a>
+      <a class="btn btn--hivis" href="/donate"{{active:donate}}>Donate</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+{{content}}
+</main>
+
+<footer class="site-footer">
+  <div class="wrap footer-grid">
+    <div>
+      <a class="logo logo--big" href="/"><canvas class="logo__mark logo__mark--big" data-logo="view" aria-hidden="true"></canvas><span class="logo__word"><span>oli</span>Moto</span></a>
+      <p>A Guinness World Record attempt to become the youngest person to ride a motorcycle around the world, raising money for Save the Children.</p>
+    </div>
+    <div class="footer-latest">
+      <p class="label">Latest update</p>
+      {{latest}}
+      <p><a href="/updates">All updates</a></p>
+    </div>
+    <div>
+      <p class="label">Follow</p>
+      <ul class="socials">
+        <li><a href="https://www.instagram.com/0limot0" target="_blank" rel="noopener">Instagram</a></li>
+        <li><a href="https://www.tiktok.com/@0limot0" target="_blank" rel="noopener">TikTok</a></li>
+        <li><a href="https://www.youtube.com/channel/UCjyzYs1X4IXNzk__nDGYuaw" target="_blank" rel="noopener">YouTube</a></li>
+        <li><a href="https://www.facebook.com/profile.php?id=61586581775558" target="_blank" rel="noopener">Facebook</a></li>
+        <li><a href="https://www.linkedin.com/company/oli-moto" target="_blank" rel="noopener">LinkedIn</a></li>
+      </ul>
+    </div>
+    <div>
+      <p class="label">Contact</p>
+      <p><a href="mailto:joe.purkis@mail.com">joe.purkis@mail.com</a></p>
+      <p><a href="/contact">Send a message</a> · <a href="/privacy">Privacy</a></p>
+    </div>
+  </div>
+  <div class="wrap footer-base small">© 2026 oliMoto. 100% of private donations go to Save the Children.</div>
+</footer>
+<script src="/assets/js/site.js" defer></script>
+<script src="/assets/js/motion.js" defer></script>
+{{scripts}}
+</body>
+</html>

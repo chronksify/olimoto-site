@@ -1,0 +1,91 @@
+# oliMoto website editor (Decap CMS), at olimoto.co.uk/admin
+# Saving here commits to GitHub, and Netlify rebuilds the site in about a minute.
+
+backend:
+  name: github
+  repo: JoePurkis/olimoto-site
+  branch: main
+  base_url: https://api.netlify.com
+  auth_endpoint: auth
+  commit_messages:
+    update: "Update {{collection}}: {{slug}} (by {{author-name}})"
+
+# Lets the editor work on this computer with `npm run cms` before GitHub is set up.
+local_backend: true
+
+media_folder: src/assets/img/uploads
+public_folder: /assets/img/uploads
+site_url: https://olimoto.co.uk
+display_url: https://olimoto.co.uk
+logo_url: /assets/img/social/logo-sticker.png
+
+collections:
+  - name: news
+    label: News
+    description: Posts on the Updates page. The newest eight with photos also show on the home page.
+    files:
+      - name: updates
+        label: News posts
+        file: data/updates.json
+        fields:
+          - label: Posts
+            name: updates
+            widget: list
+            add_to_top: true
+            collapsed: true
+            summary: "{{fields.date}} · {{fields.title}}"
+            fields:
+              - { label: Date, name: date, widget: datetime, date_format: "D MMMM YYYY", time_format: false, format: "YYYY-MM-DD", picker_utc: true }
+              - { label: Show the month only, name: monthOnly, widget: boolean, required: false, default: false, hint: "Tick this if you don't know the exact day." }
+              - { label: Title, name: title, widget: string }
+              - { label: Text, name: text, widget: text }
+              - { label: Photo, name: image, widget: image, required: false, hint: "Optional. Use photos of Oli and Joe on the Hondas." }
+              - { label: Photo description, name: alt, widget: string, required: false, hint: "One sentence saying what's in the photo, for people who can't see it." }
+
+  - name: supporters
+    label: Supporters
+    description: Every business backing the ride. They show on the Sponsor page and at the bottom of the home page.
+    files:
+      - name: supporters
+        label: Supporters
+        file: data/supporters.json
+        fields:
+          - label: Supporters
+            name: supporters
+            widget: list
+            collapsed: true
+            summary: "{{fields.name}}"
+            fields:
+              - { label: Name, name: name, widget: string }
+              - { label: What they do, name: line, widget: string, hint: "A few words, e.g. Motorcycle luggage, clothing and accessories" }
+              - { label: Website, name: url, widget: string, pattern: ['^https?://', "Start with https://"] }
+
+  - name: settings
+    label: Dates and fundraising
+    files:
+      - name: site
+        label: Dates and fundraising
+        file: data/site.json
+        fields:
+          - label: Departure
+            name: departure
+            widget: object
+            hint: The countdown on every page counts down to this.
+            fields:
+              - { label: Date, name: date, widget: datetime, date_format: "D MMMM YYYY", time_format: false, format: "YYYY-MM-DD", picker_utc: true }
+              - { label: Time (UK time), name: time, widget: string, pattern: ['^([01]\d|2[0-3]):[0-5]\d$', "Use the 24-hour clock, e.g. 12:00"] }
+              - { label: Place, name: place, widget: string }
+          - label: Official start in London
+            name: londonStart
+            widget: object
+            fields:
+              - { label: Date, name: date, widget: datetime, date_format: "D MMMM YYYY", time_format: false, format: "YYYY-MM-DD", picker_utc: true }
+          - label: Fundraising
+            name: fundraising
+            widget: object
+            hint: "The website reads the total from JustGiving by itself, about once an hour. The numbers here are only a backup, used if JustGiving can't be reached."
+            fields:
+              - { label: Raised so far (£), name: raised, widget: number, value_type: int, min: 0 }
+              - { label: Target (£), name: target, widget: number, value_type: int, min: 1 }
+              - { label: Total checked on, name: asOf, widget: datetime, date_format: "D MMMM YYYY", time_format: false, format: "YYYY-MM-DD", picker_utc: true }
+              - { label: JustGiving link, name: url, widget: string, pattern: ['^https://', "Start with https://"] }

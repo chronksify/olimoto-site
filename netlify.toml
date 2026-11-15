@@ -1,0 +1,48 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+
+# Pretty URLs: /team serves team.html
+[build.processing.html]
+  pretty_urls = true
+
+[[headers]]
+  for = "/moderate*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+
+[[headers]]
+  for = "/admin/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+# Addresses from the old GoDaddy site, so old links and search results still land somewhere useful.
+[[redirects]]
+  from = "/privacy-policy"
+  to = "/privacy"
+  status = 301
+
+[[redirects]]
+  from = "/f"
+  to = "/updates"
+  status = 301
+
+[[redirects]]
+  from = "/f/*"
+  to = "/updates"
+  status = 301
+
+[[redirects]]
+  from = "/f.rss"
+  to = "/updates"
+  status = 301

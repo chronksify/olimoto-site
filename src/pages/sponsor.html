@@ -1,0 +1,55 @@
+<!--meta {"title":"Sponsor the ride · oliMoto","description":"Sponsor Oli Purkis's attempt to become the youngest person to ride a motorcycle around the world. Oli and Joe are looking for a title sponsor.","slug":"sponsor"} -->
+<section class="record">
+  <div class="wrap">
+    <p class="kicker">Sponsorship</p>
+    <h1>Become the title sponsor</h1>
+    <p class="record__lede" style="margin-top:22px">"We're looking for a brand that wants to be part of the adventure and the story, with opportunities for exposure across the journey, media coverage and the content we create along the way."</p>
+    <div class="btn-row" style="margin-top:28px"><a class="btn btn--hivis" href="#enquire">Talk to Joe</a></div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap split">
+    <div>
+      <h2>Already behind it</h2>
+      <p class="lede" style="margin-top:20px">Advertising and promotion are tailored to each sponsor. A share of every sponsorship goes to Save the Children, agreed with each sponsor.</p>
+    </div>
+    <ul class="proof">
+      <li><time>Sep 2026</time><div><b>Motorcycle News and Visordown</b>Both featured the story, with support from Honda UK on social media.</div></li>
+      <li><time>Oct 2026</time><div><b>Front cover of the Piper</b>Deeside and Donside Piper and Herald, with a full feature inside.</div></li>
+      <li><time>Oct 2026</time><div><b>John McGuinness evening sold out</b>All funds raised went to Save the Children UK.</div></li>
+      <li><time>Endorsement</time><div><b>Dwayne Fields, Chief Scout</b>Backs Oli's fundraising for Save the Children.</div></li>
+      <li><time>8 Mar 2026</time><div><b>Route talk with Charley Boorman</b>Oli discussed round-the-world route options with him.</div></li>
+      <li><time>Mar 2026</time><div><b>Aberdeen Car Show</b>The team promoted the ride and raised sponsorship and donations.</div></li>
+      <li><time>Supporters</time><div><b>{{supporter-count}} businesses</b>Including Honda and Shirlaws, where the ride starts.</div></li>
+    </ul>
+  </div>
+</section>
+
+<section class="band band--light" id="supporters">
+  <div class="wrap">
+    <div class="band-head"><h2>Supporters</h2><p>Thank you to every business backing the ride.</p></div>
+    {{supporter-list}}
+  </div>
+</section>
+
+<section class="band" id="enquire">
+  <div class="wrap split">
+    <div>
+      <h2>Talk to Joe about sponsorship</h2>
+      <p class="lede" style="margin-top:20px">Tell us a bit about your business and what you're interested in. Joe will get back to you.</p>
+      <p>Or email <a href="mailto:joe.purkis@mail.com">joe.purkis@mail.com</a></p>
+    </div>
+    <form name="sponsor" method="POST" data-netlify="true" netlify-honeypot="bot-field" data-ajax data-success="Thanks. Joe will be in touch soon.">
+      <input type="hidden" name="form-name" value="sponsor">
+      <p hidden><label>Leave this empty <input name="bot-field"></label></p>
+      <div class="field"><label for="sp-name">Your name</label><input id="sp-name" type="text" name="name" required autocomplete="name"></div>
+      <div class="field"><label for="sp-company">Company</label><input id="sp-company" type="text" name="company" required autocomplete="organization"></div>
+      <div class="field"><label for="sp-email">Email</label><input id="sp-email" type="email" name="email" required autocomplete="email"></div>
+      <div class="field"><label for="sp-phone">Phone <span class="hint">(optional)</span></label><input id="sp-phone" type="tel" name="phone" autocomplete="tel"></div>
+      <div class="field"><label for="sp-msg">What you're interested in</label><textarea id="sp-msg" name="message"></textarea></div>
+      <button class="btn btn--hivis" type="submit">Send enquiry</button>
+      <p class="form-status" role="status"></p>
+    </form>
+  </div>
+</section>
