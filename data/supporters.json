@@ -3,122 +3,170 @@
     {
       "name": "Honda",
       "line": "Motorcycles",
-      "url": "https://www.honda.co.uk/motorcycles.html"
+      "url": "https://www.honda.co.uk/motorcycles.html",
+      "logo": "/assets/img/supporters/honda.svg",
+      "logoBg": "dark"
     },
     {
       "name": "Shirlaws",
       "line": "Family-run motorcycle dealer since 1928",
-      "url": "https://www.shirlaws.com"
+      "url": "https://www.shirlaws.com",
+      "logo": "/assets/img/supporters/shirlaws.png",
+      "logoBg": "light"
     },
     {
       "name": "The Adventure Bike Shop",
       "line": "Motorcycle luggage, clothing and accessories",
-      "url": "https://www.adventurebikeshop.co.uk"
+      "url": "https://www.adventurebikeshop.co.uk",
+      "logo": "/assets/img/supporters/the-adventure-bike-shop.png",
+      "logoBg": "dark"
     },
     {
       "name": "Oxford Products",
       "line": "Motorcycle gear, luggage and accessories",
-      "url": "https://www.oxfordproducts.com"
+      "url": "https://www.oxfordproducts.com",
+      "logo": "/assets/img/supporters/oxford-products.svg",
+      "logoBg": "dark"
     },
     {
       "name": "Cool Covers",
       "line": "Motorbike seat covers with a 3D air mesh",
-      "url": "https://coolcovers.co.uk"
+      "url": "https://coolcovers.co.uk",
+      "logo": "/assets/img/supporters/cool-covers.png",
+      "logoBg": "light"
     },
     {
-      "name": "LOMO",
+      "name": "Lomo",
       "line": "Wetsuits, dry bags and outdoor kit from Glasgow",
-      "url": "https://www.lomo.co.uk"
+      "url": "https://www.lomo.co.uk",
+      "logo": "/assets/img/supporters/lomo.svg",
+      "logoBg": "dark"
     },
     {
-      "name": "SSI",
+      "name": "Specialised Seals International",
       "line": "Seals for energy and turbines",
-      "url": "https://www.specialisedseals.co.uk"
+      "url": "https://www.specialisedseals.co.uk",
+      "logo": "/assets/img/supporters/specialised-seals-international.png",
+      "logoBg": "dark"
     },
     {
       "name": "121 MotoSkills",
       "line": "Rider training in Aberdeen",
-      "url": "https://www.121motoskills.co.uk"
+      "url": "https://www.121motoskills.co.uk",
+      "logo": "/assets/img/supporters/121-motoskills.webp",
+      "logoBg": "light"
     },
     {
       "name": "NSES",
       "line": "North Sea Energy Services",
-      "url": "https://www.nses.co.uk"
+      "url": "https://www.nses.co.uk",
+      "logo": "/assets/img/supporters/nses.svg",
+      "logoBg": "dark"
     },
     {
       "name": "Arch 35",
       "line": "Marketing",
-      "url": "https://www.arch35.com/"
+      "url": "https://www.arch35.com/",
+      "logo": "/assets/img/supporters/arch-35.webp",
+      "logoBg": "light"
     },
     {
       "name": "Aberdeen First Aid School",
       "line": "First Aid at Work courses",
-      "url": "https://www.afas.co.uk"
+      "url": "https://www.afas.co.uk",
+      "logo": "/assets/img/supporters/aberdeen-first-aid-school.png",
+      "logoBg": "light"
     },
     {
       "name": "QHSE Aberdeen",
       "line": "Management systems consultancy",
-      "url": "https://www.qhseaberdeen.com"
+      "url": "https://www.qhseaberdeen.com",
+      "logo": "/assets/img/supporters/qhse-aberdeen.png",
+      "logoBg": "dark"
     },
     {
-      "name": "Granite OH",
+      "name": "Granite Occupational Health",
       "line": "Occupational health",
-      "url": "https://www.graniteoh.co.uk"
+      "url": "https://www.graniteoh.co.uk",
+      "logo": "/assets/img/supporters/granite-occupational-health.png",
+      "logoBg": "dark"
     },
     {
       "name": "Peterkins",
       "line": "Solicitors, estate agents and financial advisers",
-      "url": "https://www.peterkins.com"
+      "url": "https://www.peterkins.com",
+      "logo": "/assets/img/supporters/peterkins.svg",
+      "logoBg": "light"
     },
     {
       "name": "Mototravel Georgia",
       "line": "Motorcycle tours from Tbilisi",
-      "url": "https://www.mototraveltbilisi.com"
+      "url": "https://www.mototraveltbilisi.com",
+      "logo": "/assets/img/supporters/mototravel-georgia.png",
+      "logoBg": "dark"
     },
     {
       "name": "Blue Turtle",
       "line": "Occupational hygienists",
-      "url": "https://www.blueturtleltd.co.uk"
+      "url": "https://www.blueturtleltd.co.uk",
+      "logo": "/assets/img/supporters/blue-turtle.svg",
+      "logoBg": "light"
     },
     {
       "name": "CRH Machining",
       "line": "Precision engineering since 2014",
-      "url": "https://www.crhmachining.co.uk"
+      "url": "https://www.crhmachining.co.uk",
+      "logo": "/assets/img/supporters/crh-machining.svg",
+      "logoBg": "dark"
     },
     {
       "name": "Oil States",
       "line": "Offshore energy systems",
-      "url": "https://www.oilstates.co"
+      "url": "https://oilstates.com",
+      "logo": "/assets/img/supporters/oil-states.svg",
+      "logoBg": "dark"
     },
     {
       "name": "IAM RoadSmart",
       "line": "Car and motorcycle training",
-      "url": "https://www.iamroadsmart.com"
+      "url": "https://www.iamroadsmart.com",
+      "logo": "/assets/img/supporters/iam-roadsmart.svg",
+      "logoBg": "light"
     },
     {
       "name": "Infinite Power Coaching",
       "line": "Fitness coaching",
-      "url": "https://www.infinitepowercoaching.co.uk"
+      "url": "https://www.infinitepowercoaching.co.uk",
+      "logo": "/assets/img/supporters/infinite-power-coaching.svg",
+      "logoBg": "dark"
     },
     {
-      "name": "Advanced Motorcycle Training",
+      "name": "RAPID Training",
       "line": "Real-world rider coaching",
-      "url": "https://www.rapidtraining.co.uk"
+      "url": "https://www.rapidtraining.co.uk",
+      "logo": "/assets/img/supporters/rapid-training.webp",
+      "logoBg": "light"
     },
     {
       "name": "BikerStays",
       "line": "Places to stay with secure bike parking",
-      "url": "https://www.bikerstays-accommodation.com"
+      "url": "https://www.bikerstays-accommodation.com",
+      "logo": "/assets/img/supporters/bikerstays.png",
+      "logoBg": "dark"
     },
     {
       "name": "Contact Patch",
       "line": "Medical and emergency details for riders",
-      "url": "https://www.contact-patch.com"
+      "url": "https://www.contact-patch.com",
+      "logo": "/assets/img/supporters/contact-patch.png",
+      "logoBg": "light"
     },
     {
-      "name": "Offroad Offcourse",
+      "name": "OFFroad OFFcourse",
       "line": "Off-road tours in Portugal",
-      "url": "https://www.offroad-offcourse.com"
+      "url": "https://www.offroad-offcourse.com",
+      "logo": "/assets/img/supporters/offroad-offcourse.png",
+      "logoBg": "dark"
     }
   ]
 }

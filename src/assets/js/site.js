@@ -292,12 +292,15 @@
     fetch("/api/messages", { headers: { accept: "application/json" } })
       .then(function (r) { if (!r.ok) throw r; return r.json(); })
       .then(function (d) {
-        var list = (d.messages || []).slice(0, limit);
+        var all = d.messages || [], list = all.slice(0, limit);
+        // On the home page the wall stays hidden until there are a few real messages.
+        if (wall.dataset.min) { if (all.length < +wall.dataset.min) return; wall.hidden = false; }
         wall.innerHTML = "";
         if (!list.length) { wall.innerHTML = '<p class="wall-empty">No messages yet. Be the first to wish Oli and Joe luck before they set off.</p>'; return; }
         list.forEach(function (m) { wall.appendChild(renderMsg(m)); });
       })
       .catch(function () {
+        if (wall.dataset.min) return;
         wall.innerHTML = '<p class="wall-empty">' + (location.hostname === "localhost" ? "Messages load here once the site is on Netlify. This preview has no message store." : "Messages couldn't load just now. Try refreshing.") + "</p>";
       });
   });

@@ -4,7 +4,7 @@ import { readFile } from "node:fs/promises";
 import { extname, join, normalize } from "node:path";
 
 const PORT = Number(process.env.PORT) || 4321;
-const TYPES = { ".html": "text/html; charset=utf-8", ".css": "text/css", ".js": "text/javascript", ".svg": "image/svg+xml", ".png": "image/png", ".jpg": "image/jpeg", ".json": "application/json", ".webmanifest": "application/manifest+json" };
+const TYPES = { ".html": "text/html; charset=utf-8", ".css": "text/css", ".js": "text/javascript", ".svg": "image/svg+xml", ".png": "image/png", ".jpg": "image/jpeg", ".jpeg": "image/jpeg", ".webp": "image/webp", ".json": "application/json", ".webmanifest": "application/manifest+json" };
 
 createServer(async (req, res) => {
   const url = new URL(req.url, "http://x");
@@ -17,11 +17,11 @@ createServer(async (req, res) => {
   if (!p || p.endsWith("/") || p.endsWith("\\")) p += "index.html";
   if (!extname(p)) p += ".html";
   try {
-    const body = await readFile(join("dist", p));
+    const body = await readFile(join(import.meta.dirname, "dist", p));
     res.writeHead(200, { "content-type": TYPES[extname(p)] || "application/octet-stream" });
     res.end(body);
   } catch {
     res.writeHead(404, { "content-type": "text/html" });
-    res.end(await readFile("dist/404.html").catch(() => "Not found"));
+    res.end(await readFile(join(import.meta.dirname, "dist/404.html")).catch(() => "Not found"));
   }
 }).listen(PORT, () => console.log(`Preview on http://localhost:${PORT}`));

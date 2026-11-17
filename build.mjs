@@ -4,6 +4,8 @@ import { readFileSync, writeFileSync, mkdirSync, readdirSync, cpSync, rmSync } f
 import { join } from "node:path";
 
 const SRC = "src", OUT = "dist";
+// Netlify sets URL to the site's main address, so share previews point at the right place before and after the domain moves.
+const SITE_URL = (process.env.URL || "https://olimoto.co.uk").replace(/\/$/, "");
 const layout = readFileSync(join(SRC, "partials/layout.html"), "utf8");
 // Content the team edits in the CMS at /admin. Each data file is one CMS section.
 const site = JSON.parse(readFileSync("data/site.json", "utf8"));
@@ -80,6 +82,10 @@ const blocks = {
   "supporter-count": () => String(supporters.length),
   "supporter-names": () =>
     supporters.map((s) => `<a href="${s.url}" target="_blank" rel="noopener">${esc(s.name)}</a>`).join('<span aria-hidden="true"> · </span>'),
+  // Logo grid. A supporter with no logo yet shows as their name in the same tile.
+  "supporter-logos": () =>
+    `<ul class="logos">${supporters.map((s) => `
+      <li><a class="logos__tile${s.logoBg === "dark" ? " logos__tile--dark" : ""}" href="${s.url}" target="_blank" rel="noopener" title="${esc(s.name)}${s.line ? ": " + esc(s.line) : ""}">${s.logo ? `<img src="${imgSrc(s.logo)}" alt="${esc(s.name)}" loading="lazy" decoding="async">` : `<span>${esc(s.name)}</span>`}</a></li>`).join("")}</ul>`,
   "supporter-list": () =>
     `<ul class="roster">${supporters.map((s) => `
       <li><a href="${s.url}" target="_blank" rel="noopener"><b>${esc(s.name)}</b><span>${esc(s.line)}</span></a></li>`).join("")}</ul>`,
@@ -99,9 +105,11 @@ for (const file of readdirSync(join(SRC, "pages")).filter((f) => f.endsWith(".ht
 
   let html = layout
     .replace("{{content}}", content)
-    .replace(/\{\{(updates|logbook|raised|donate-url|latest|patches|supporter-count|supporter-names|supporter-list)(?::(\d+))?\}\}/g, (_, k, n) => blocks[k](n))
+    .replace(/\{\{(updates|logbook|raised|donate-url|latest|patches|supporter-count|supporter-names|supporter-logos|supporter-list)(?::(\d+))?\}\}/g, (_, k, n) => blocks[k](n))
     .replaceAll("{{title}}", esc(meta.title))
     .replaceAll("{{description}}", esc(meta.description))
+    .replaceAll("{{page-url}}", SITE_URL + (file === "index.html" ? "/" : "/" + file.replace(/.html$/, "")))
+    .replaceAll("{{share-image}}", SITE_URL + "/assets/img/share.jpg")
     .replace("{{head}}", meta.head || "")
     .replace("{{scripts}}", meta.scripts || "")
     .replace("{{slug}}", meta.slug);

@@ -44,7 +44,7 @@ collections:
 
   - name: supporters
     label: Supporters
-    description: Every business backing the ride. They show on the Sponsor page and at the bottom of the home page.
+    description: Every business backing the ride. Their logos show on the Sponsor page and at the bottom of the home page. Write each name the way the company writes it on its own website.
     files:
       - name: supporters
         label: Supporters
@@ -59,6 +59,8 @@ collections:
               - { label: Name, name: name, widget: string }
               - { label: What they do, name: line, widget: string, hint: "A few words, e.g. Motorcycle luggage, clothing and accessories" }
               - { label: Website, name: url, widget: string, pattern: ['^https?://', "Start with https://"] }
+              - { label: Logo, name: logo, widget: image, required: false, hint: "Their logo, ideally from their own website. Without one, their name shows in the tile instead." }
+              - { label: Logo tile colour, name: logoBg, widget: select, required: false, default: light, options: [ { label: "White tile (for dark or coloured logos)", value: light }, { label: "Dark tile (for white logos)", value: dark } ] }
 
   - name: settings
     label: Dates and fundraising

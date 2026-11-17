@@ -28,6 +28,9 @@ The newest eight posts with photos also show on the home page, under *The road t
 
 1. Click **Supporters**, then **Supporters**.
 2. Click **Add supporters** and fill in the **Name**, **What they do** (a few words) and **Website** (starting with https://).
+   - Write the **Name** exactly as the company writes it on its own website, capitals included (for example Lomo, IAM RoadSmart, OFFroad OFFcourse).
+   - Add their **Logo**. The best place to get it is their own website. Then pick the **Logo tile colour**: white for a dark or coloured logo, dark for a white logo.
+   - With no logo, the tile shows their name instead.
 3. Drag it up or down the list to change the order. The order here is the order on the site.
 4. Publish.
 
