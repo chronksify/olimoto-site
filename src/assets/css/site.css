@@ -571,3 +571,6 @@ input[aria-invalid=true], textarea[aria-invalid=true] { border-color: #b3261e; }
 }
 @media (max-width: 560px) { .opening__line { font-size: 30px; } }
 .menu-btn { min-height: 44px; }
+/* Hero photo, November 2026: the portrait of Oli on the CB125R. Keep both faces and the bike in frame. */
+.opening__photo img { object-position: 50% 30%; }
+@media (max-width: 900px) { .opening__photo { aspect-ratio: 1; } .opening__photo img { object-position: 50% 22%; } }
