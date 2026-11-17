@@ -42,6 +42,26 @@ collections:
               - { label: Photo, name: image, widget: image, required: false, hint: "Optional. Use photos of Oli and Joe on the Hondas." }
               - { label: Photo description, name: alt, widget: string, required: false, hint: "One sentence saying what's in the photo, for people who can't see it." }
 
+  - name: milestones
+    label: Milestones
+    description: The big steps on the home page under "The road to the start line", such as passing a test or the bikes arriving. Keep it to the few that matter most. The departure day is added at the end by itself.
+    files:
+      - name: milestones
+        label: Milestones
+        file: data/milestones.json
+        fields:
+          - label: Milestones
+            name: milestones
+            widget: list
+            collapsed: true
+            summary: "{{fields.date}} · {{fields.title}}"
+            fields:
+              - { label: Date, name: date, widget: datetime, date_format: "D MMMM YYYY", time_format: false, format: "YYYY-MM-DD", picker_utc: true }
+              - { label: Title, name: title, widget: string }
+              - { label: Text, name: text, widget: text, hint: "One or two sentences." }
+              - { label: Photo, name: image, widget: image, required: false }
+              - { label: Photo description, name: alt, widget: string, required: false, hint: "One sentence saying what's in the photo, for people who can't see it." }
+
   - name: supporters
     label: Supporters
     description: Every business backing the ride. Their logos show on the Sponsor page and at the bottom of the home page. Write each name the way the company writes it on its own website.

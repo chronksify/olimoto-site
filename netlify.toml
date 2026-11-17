@@ -51,3 +51,9 @@
   from = "/f.rss"
   to = "/updates"
   status = 301
+
+# The redesign preview lived at /next before it became the home page.
+[[redirects]]
+  from = "/next"
+  to = "/"
+  status = 301

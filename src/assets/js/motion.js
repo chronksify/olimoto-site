@@ -1,6 +1,5 @@
 /* oliMoto motion. Every effect here explains something:
    - the logo: the bike rides round the globe, clockwise, the way it faces
-   - the route: scrolling rides the planned route leg by leg, so the order is clear
    - the fundraising bar fills to the real total
    With reduced motion turned on, everything shows in its finished state. */
 (function () {
@@ -76,64 +75,6 @@
     var host = c.closest("a, button");
     if (host && !reduce) host.addEventListener("mouseenter", function () { playLogo(c); });
   });
-
-  /* ---------- route: scrolling rides the planned route ---------- */
-  function ride(wrap) {
-    var section = wrap.closest("[data-ride]");
-    var svg = wrap.querySelector("svg");
-    if (!section || !svg || reduce) return;
-    var ROUTE = window.OLIMOTO_ROUTE || [];
-    var legs = $$(".leg", svg).map(function (p) {
-      var len = p.getTotalLength(), fly = p.classList.contains("fly");
-      return { el: p, len: len, w: fly ? len * 0.35 : len, fly: fly, i: +p.dataset.i };
-    });
-    var total = legs.reduce(function (s, l) { return s + l.w; }, 0);
-    var NS = "http://www.w3.org/2000/svg";
-    var g = document.createElementNS(NS, "g"); g.setAttribute("class", "rider");
-    var im = document.createElementNS(NS, "image");
-    im.setAttribute("href", "/assets/img/logo-bike.png"); im.setAttribute("width", "34"); im.setAttribute("height", "30");
-    im.setAttribute("x", "-17"); im.setAttribute("y", "-29");
-    g.appendChild(im); svg.appendChild(g);
-    var readout = section.querySelector("[data-ride-readout]");
-    var last = "";
-    function update() {
-      var r = section.getBoundingClientRect(), span = section.offsetHeight - window.innerHeight;
-      var p = span > 0 ? clamp(-r.top / span, 0, 1) : 1, D = p * total, acc = 0, here = null;
-      legs.forEach(function (l) {
-        var f = clamp((D - acc) / l.w, 0, 1);
-        if (l.fly) l.el.style.opacity = f > 0 ? String(0.35 + 0.65 * f) : "0";
-        else l.el.style.strokeDashoffset = String(1 - f);
-        if (f > 0 && f < 1) here = { l: l, f: f };
-        acc += l.w;
-      });
-      var l0 = legs[0], pt, ahead, leg;
-      if (here) { leg = here.l; pt = leg.el.getPointAtLength(here.f * leg.len); ahead = leg.el.getPointAtLength(Math.min(leg.len, here.f * leg.len + 2)); }
-      else if (p >= 1) { leg = legs[legs.length - 1]; pt = leg.el.getPointAtLength(leg.len); ahead = { x: pt.x + 1, y: pt.y }; }
-      else { leg = l0; pt = l0.el.getPointAtLength(0); ahead = l0.el.getPointAtLength(2); }
-      var dx = ahead.x - pt.x, dy = ahead.y - pt.y, a = Math.atan2(dy, dx) * 180 / Math.PI, left = dx < 0;
-      if (Math.abs(dx) > 30) a = 0; // the jump where the Pacific leg wraps round the map edge
-      var tilt = left ? a + 180 : a; if (tilt > 180) tilt -= 360;
-      a = leg.fly ? 0 : clamp(tilt, -40, 40); // level on a boat or plane, leaning into hills on the road
-      if (left) a -= 180;
-      g.setAttribute("transform", "translate(" + pt.x.toFixed(1) + " " + pt.y.toFixed(1) + ") rotate(" + (left ? a + 180 : a).toFixed(1) + ") scale(" + (left ? -1 : 1) + " 1)");
-      g.style.opacity = p > 0.002 && p < 0.998 ? "1" : "0";
-      if (readout) {
-        var stop = ROUTE[leg.i] || {}, text;
-        if (p <= 0.002) text = "Start · Shirlaws, " + (document.documentElement.dataset.departLabel || "");
-        else if (p >= 0.998) text = "Home · about 19,000 miles";
-        else text = (leg.fly ? "Bikes shipped to " : "Riding through ") + (stop.region || stop.name || "");
-        if (!leg.fly && stop.region === "England") text = "Riding to London · " + (document.documentElement.dataset.londonLabel || "");
-        if (stop.region === "home") text = "Heading home";
-        if (text !== last) { readout.textContent = text; last = text; }
-      }
-    }
-    var ticking = false;
-    window.addEventListener("scroll", function () { if (!ticking) { ticking = true; requestAnimationFrame(function () { ticking = false; update(); }); } }, { passive: true });
-    window.addEventListener("resize", update);
-    section.classList.add("is-riding");
-    update();
-  }
-  document.addEventListener("route:ready", function (e) { ride(e.detail); });
 
   /* ---------- fundraising bar fills to the real total ---------- */
   $$(".raised").forEach(function (box) {

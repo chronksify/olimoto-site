@@ -1,4 +1,4 @@
-<!--meta {"title":"oliMoto · A father and son ride around the world","description":"In {{depart-month-long}} Oli Purkis sets off with his dad Joe to ride a motorbike around the world, going for the Guinness World Record as the youngest person to do it and raising money for Save the Children.","slug":"home","scripts":"<script src=\"/assets/vendor/d3-array.min.js\" defer></script><script src=\"/assets/vendor/d3-geo.min.js\" defer></script><script src=\"/assets/vendor/topojson-client.min.js\" defer></script>"} -->
+<!--meta {"title":"oliMoto · A father and son ride around the world","description":"In {{depart-month-long}} Oli Purkis sets off with his dad Joe to ride a motorbike around the world, going for the Guinness World Record as the youngest person to do it and raising money for Save the Children.","slug":"home","scripts":"<script src=\"/assets/vendor/d3-array.min.js\" defer></script><script src=\"/assets/vendor/d3-geo.min.js\" defer></script><script src=\"/assets/vendor/topojson-client.min.js\" defer></script><script src=\"/assets/js/route.js\" defer></script>"} -->
 <!-- Words in quotation marks on this page are Oli and Joe's own, from their Instagram and Facebook posts. -->
 
 <section class="opening">
@@ -15,9 +15,17 @@
       </div>
       <div class="btn-row">
         <a class="btn btn--hivis" href="{{donate-url}}" target="_blank" rel="noopener">Donate</a>
-        <a class="btn btn--line" href="#story">Read their story</a>
+        <a class="btn btn--line" href="#sponsor">Sponsor the ride</a>
       </div>
     </div>
+  </div>
+</section>
+
+<section class="rb-proof" aria-label="Who is behind the ride">
+  <div class="wrap rb-proof__grid">
+    <p><b>Honda and Shirlaws</b> are among {{supporter-count}} supporters behind the ride.</p>
+    <p><b>Motorcycle News and Visordown</b> featured the story in September 2026.</p>
+    <p><b>Dwayne Fields, Chief Scout,</b> backs Oli's fundraising for Save the Children.</p>
   </div>
 </section>
 
@@ -26,14 +34,26 @@
     <div class="chapter__body">
       <p class="chapter__drop reveal">"It began with a simple bond, formed across muddy tracks, snowy mountain tops, and every adventure in between."</p>
       <p>Joe has toured on motorbikes through 16 countries. Oli started out on a 50cc. The idea of riding around the world together came on the drive home from ABR Festival, and for months only a handful of people knew about it.</p>
-      <p>Then it got real. Oli passed his CBT in November 2025 and spent the winter on the road with Joe behind him, talking him through it over the intercom. In September 2026 he had his first lesson on a 125. In October he passed his A1 licence, and a week later two Hondas arrived: a CB125R for Oli and an NX500 for Joe.</p>
     </div>
   </div>
 </section>
 
-<figure class="panorama">
-  <img src="/assets/img/social/g1.webp" alt="Adventure motorbikes parked on a gravel road high on a green mountain ridge" width="2560" height="1182" loading="lazy" decoding="async">
-</figure>
+<section class="rb-road">
+  <div class="wrap">
+    <h2>The road to the start line</h2>
+    <ol class="rb-rows">
+      {{milestones}}
+      <li class="rb-row rb-row--next">
+        <time datetime="{{depart-iso}}">{{depart-short}}</time>
+        <div class="rb-row__notes">
+          <h3>They ride out of Shirlaws</h3>
+          <p>At {{depart-time}}. The official start in London follows on {{london-date}}.</p>
+        </div>
+      </li>
+    </ol>
+    <p class="rb-more"><a href="/updates">Every update from the build-up</a></p>
+  </div>
+</section>
 
 <section class="dad">
   <div class="wrap dad__grid">
@@ -49,23 +69,51 @@
   </div>
 </section>
 
-<section class="way" data-ride>
-  <div class="way__sticky">
-  <div class="wrap way__head">
-    <h2>The way round</h2>
-    <p>From Shirlaws to London, by boat to Portugal, then east across Europe and Asia to China. The bikes go on to Australia and New Zealand, then the USA from west to east, and home. About 19,000 miles through 20 countries.</p>
+<section class="rb-way" id="route">
+  <div class="rb-way__map" data-way-map>
+    <div class="rb-way__frame" data-route></div>
+    <p class="rb-way__now" aria-hidden="true"><span data-way-now></span> <span class="rb-way__trip" data-trip></span></p>
   </div>
-  <div class="wrap wrap--wide"><div class="route-wrap" data-route></div></div>
-  <div class="wrap way__more"><p class="ride-readout" data-ride-readout aria-hidden="true"></p><a href="/expedition#map">Open the full map</a></div>
+  <div class="rb-way__book">
+    <h2>The way round</h2>
+    <p class="rb-way__lede">From Shirlaws to London, by boat to Portugal, then east across Europe and Asia to China. The bikes go on to Australia and New Zealand, then the USA from west to east, and home.</p>
+    <ol class="rb-legs" data-legs></ol>
+    <noscript><p>The route: Scotland, London, Portugal, Europe, Turkey, the Caucasus, Central Asia, China, Australia, New Zealand, the USA, then home.</p></noscript>
+    <p class="rb-way__note">Planned route. Countries may change, and the miles are rough. <a href="/expedition#map">Open the full map</a></p>
   </div>
 </section>
 
-<section class="logbook">
-  <div class="wrap logbook__head">
-    <h2>The road to the start line</h2>
-    <a href="/updates">All updates</a>
+<section class="rb-title" id="sponsor">
+  <div class="wrap rb-title__grid">
+    <div>
+      <h2>Be their title sponsor</h2>
+      <p class="rb-slot" role="img" aria-label="oliMoto, with your name here">
+        <span class="rb-slot__us"><span>oli</span>Moto</span>
+        <span class="rb-slot__x" aria-hidden="true">with</span>
+        <span class="rb-slot__you">Your name here</span>
+      </p>
+      <p class="lede">Oli and Joe are looking for a title sponsor: a brand that wants to be part of the adventure and the story.</p>
+      <p>"We're looking for a brand that wants to be part of the adventure and the story, with opportunities for exposure across the journey, media coverage and the content we create along the way."</p>
+      <div class="btn-row">
+        <a class="btn btn--hivis" href="/sponsor#enquire">Talk to Joe</a>
+        <a class="btn btn--dark" href="/sponsor">What sponsors get</a>
+      </div>
+    </div>
+    <ul class="proof">
+      <li><time>Sep 2026</time><div><b>Motorcycle News and Visordown</b>Both featured the story, with support from Honda UK on social media.</div></li>
+      <li><time>Oct 2026</time><div><b>Front cover of the Piper</b>Deeside and Donside Piper and Herald, with a full feature inside.</div></li>
+      <li><time>Oct 2026</time><div><b>John McGuinness evening sold out</b>All funds raised went to Save the Children UK.</div></li>
+      <li><time>8 Mar 2026</time><div><b>Route talk with Charley Boorman</b>Oli discussed round-the-world route options with him.</div></li>
+      <li><time>Mar 2026</time><div><b>Aberdeen Car Show</b>The team promoted the ride and raised sponsorship and donations.</div></li>
+    </ul>
   </div>
-  <ol class="logbook__list wrap">{{logbook:8}}</ol>
+</section>
+
+<section class="rb-backers">
+  <div class="wrap">
+    <h2>Already behind the ride</h2>
+    {{supporter-logos}}
+  </div>
 </section>
 
 <section class="give">
@@ -77,31 +125,19 @@
       <a class="btn btn--hivis" href="{{donate-url}}" target="_blank" rel="noopener">Donate on JustGiving</a>
     </div>
     <div class="give__sponsor">
-      <h2>Be their title sponsor</h2>
-      <p>{{supporter-count}} supporters, including Honda and Shirlaws, are already behind the ride. Now Oli and Joe are looking for a title sponsor: a brand that wants to be part of the adventure and the story.</p>
-      <a class="btn btn--dark" href="/sponsor">Sponsorship</a>
+      <h2>Messages for Oli and Joe</h2>
+      <p>Wish them luck before they set off.</p>
+      <div class="wall wall--stack" data-wall data-limit="2" data-min="3" hidden></div>
+      <a class="btn btn--dark" href="/messages">Send them a message</a>
     </div>
   </div>
 </section>
 
 <section class="band band--olive voices">
-  <div class="wrap voices__grid">
+  <div class="wrap">
     <figure class="quote">
       <blockquote>"Oli's journey will show other young people what can be achieved when you are prepared to set yourself a big goal and work hard to make it happen."</blockquote>
       <figcaption>Dwayne Fields, Chief Scout</figcaption>
     </figure>
-    <div class="voices__wall">
-      <h3>Messages for Oli and Joe</h3>
-      <p>Wish them luck before they set off.</p>
-      <div class="wall wall--stack" data-wall data-limit="2" data-min="3" hidden></div>
-      <a class="btn btn--hivis" href="/messages">Send them a message</a>
-    </div>
-  </div>
-</section>
-
-<section class="backers">
-  <div class="wrap">
-    <h2>Backed by</h2>
-    {{supporter-logos}}
   </div>
 </section>

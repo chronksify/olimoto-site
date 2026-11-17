@@ -1,4 +1,4 @@
-/* The way round, on the redesigned home page.
+/* The way round, on the home page.
    - the route as a list of legs, built from the same waypoints the map uses
    - scrolling the list rides the map and runs the miles counter under it */
 (function () {

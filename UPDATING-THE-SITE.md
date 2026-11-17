@@ -6,7 +6,7 @@ Everything below is done in the browser. You never need to touch code.
 
 1. Go to **olimoto.co.uk/admin**
 2. Click **Login with GitHub** and sign in with the oliMoto GitHub account (or your own, if you've been added).
-3. You'll see three sections on the left: **News**, **Supporters**, and **Dates and fundraising**.
+3. You'll see four sections on the left: **News**, **Milestones**, **Supporters**, and **Dates and fundraising**.
 
 When you click **Publish → Publish now**, the change goes live in about a minute. Every change is saved in the history, so nothing is ever lost; Christopher or Arch 35 can undo anything.
 
@@ -24,6 +24,14 @@ When you click **Publish → Publish now**, the change goes live in about a minu
 
 The newest eight posts with photos also show on the home page, under *The road to the start line*.
 
+## Add a milestone
+
+The home page has a short list called *The road to the start line*: the big steps, like passing a test or the bikes arriving. Keep it to the few that matter most. Everyday news goes in **News** instead.
+
+1. Click **Milestones**, then **Milestones**.
+2. Click **Add milestones** and fill in the **Date**, **Title** and one or two sentences of **Text**. A **Photo** is optional.
+3. Publish. The site puts them in date order, and adds the departure day at the end by itself.
+
 ## Add a supporter
 
 1. Click **Supporters**, then **Supporters**.
@@ -34,7 +42,7 @@ The newest eight posts with photos also show on the home page, under *The road t
 3. Drag it up or down the list to change the order. The order here is the order on the site.
 4. Publish.
 
-They appear on the Sponsor page and in the *Backed by* line at the bottom of the home page.
+Their logos appear on the Sponsor page and under *Already behind the ride* on the home page.
 
 ## The fundraising total
 

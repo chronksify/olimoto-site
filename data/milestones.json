@@ -1,0 +1,23 @@
+{
+  "milestones": [
+    {
+      "date": "2025-11-08",
+      "title": "Oli passes his CBT",
+      "text": "With Biketec Motorcycle Training in Aberdeen. He spends the winter on the road with Joe behind him, talking him through it over the intercom."
+    },
+    {
+      "date": "2026-10-28",
+      "title": "Oli passes his A1 test",
+      "text": "Module 1 and module 2, both passed.",
+      "image": "/assets/img/social/licence-milestone-2026-10.jpg",
+      "alt": "Oli and his instructor with the learner bike after passing module 1, and again after module 2"
+    },
+    {
+      "date": "2026-10-30",
+      "title": "The bikes are here",
+      "text": "Two Hondas: a CB125R for Oli and an NX500 for Joe.",
+      "image": "/assets/img/social/hondas-arrive-2026-10.jpg",
+      "alt": "The two new Hondas strapped to a trailer behind the oliMoto van, outside the dealership"
+    }
+  ]
+}

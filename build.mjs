@@ -11,6 +11,7 @@ const layout = readFileSync(join(SRC, "partials/layout.html"), "utf8");
 const site = JSON.parse(readFileSync("data/site.json", "utf8"));
 const updates = JSON.parse(readFileSync("data/updates.json", "utf8")).updates.slice().sort((a, b) => b.date.localeCompare(a.date));
 const supporters = JSON.parse(readFileSync("data/supporters.json", "utf8")).supporters;
+const milestones = JSON.parse(readFileSync("data/milestones.json", "utf8")).milestones.slice().sort((a, b) => a.date.localeCompare(b.date));
 const funds = site.fundraising;
 const gbp = (n) => "£" + Number(n).toLocaleString("en-GB");
 const imgSrc = (p) => (p.startsWith("/") || p.startsWith("http") ? p : "/assets/img/social/" + p);
@@ -82,6 +83,13 @@ const blocks = {
   "supporter-count": () => String(supporters.length),
   "supporter-names": () =>
     supporters.map((s) => `<a href="${s.url}" target="_blank" rel="noopener">${esc(s.name)}</a>`).join('<span aria-hidden="true"> · </span>'),
+  // Home page: the dated steps on the road to the start line, oldest first.
+  milestones: () =>
+    milestones.map((m) => `<li class="rb-row">
+        <time datetime="${m.date}">${fmtShort(m.date)}</time>
+        <div class="rb-row__notes"><h3>${esc(m.title)}</h3><p>${esc(m.text)}</p></div>${m.image ? `
+        <img class="rb-row__pic" src="${imgSrc(m.image)}" alt="${esc(m.alt || "")}" loading="lazy" decoding="async">` : ""}
+      </li>`).join("\n      "),
   // Logo grid. A supporter with no logo yet shows as their name in the same tile.
   "supporter-logos": () =>
     `<ul class="logos">${supporters.map((s) => `
@@ -91,6 +99,7 @@ const blocks = {
       <li><a href="${s.url}" target="_blank" rel="noopener"><b>${esc(s.name)}</b><span>${esc(s.line)}</span></a></li>`).join("")}</ul>`,
 };
 
+const sitemap = [];
 rmSync(OUT, { recursive: true, force: true });
 mkdirSync(OUT, { recursive: true });
 cpSync(join(SRC, "assets"), join(OUT, "assets"), { recursive: true });
@@ -105,7 +114,7 @@ for (const file of readdirSync(join(SRC, "pages")).filter((f) => f.endsWith(".ht
 
   let html = layout
     .replace("{{content}}", content)
-    .replace(/\{\{(updates|logbook|raised|donate-url|latest|patches|supporter-count|supporter-names|supporter-logos|supporter-list)(?::(\d+))?\}\}/g, (_, k, n) => blocks[k](n))
+    .replace(/\{\{(updates|logbook|raised|donate-url|latest|patches|milestones|supporter-count|supporter-names|supporter-logos|supporter-list)(?::(\d+))?\}\}/g, (_, k, n) => blocks[k](n))
     .replaceAll("{{title}}", esc(meta.title))
     .replaceAll("{{description}}", esc(meta.description))
     .replaceAll("{{page-url}}", SITE_URL + (file === "index.html" ? "/" : "/" + file.replace(/.html$/, "")))
@@ -118,5 +127,9 @@ for (const file of readdirSync(join(SRC, "pages")).filter((f) => f.endsWith(".ht
   const left = html.match(/\{\{[a-z:-]+(?::\d+)?\}\}/);
   if (left) throw new Error(`${file}: unknown token ${left[0]}`);
   writeFileSync(join(OUT, file), html);
+  if (file !== "404.html" && !/noindex/.test(meta.head || "")) sitemap.push(SITE_URL + (file === "index.html" ? "/" : "/" + file.replace(/\.html$/, "")));
 }
+// For search engines: the list of public pages, and where to find it.
+writeFileSync(join(OUT, "sitemap.xml"), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${sitemap.sort().map((u) => `  <url><loc>${u}</loc></url>`).join("\n")}\n</urlset>\n`);
+writeFileSync(join(OUT, "robots.txt"), `User-agent: *\nDisallow: /admin/\nDisallow: /moderate\nDisallow: /studio\n\nSitemap: ${SITE_URL}/sitemap.xml\n`);
 console.log("Built", readdirSync(OUT).filter((f) => f.endsWith(".html")).length, "pages into dist/");
