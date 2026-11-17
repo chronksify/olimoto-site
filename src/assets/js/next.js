@@ -1,7 +1,6 @@
-/* oliMoto roadbook page.
-   - days to the start
-   - the route as roadbook rows, built from the same waypoints the map uses
-   - scrolling the rows rides the map and runs the trip meter in the top bar */
+/* The way round, on the redesigned home page.
+   - the route as a list of legs, built from the same waypoints the map uses
+   - scrolling the list rides the map and runs the miles counter under it */
 (function () {
   "use strict";
   var $ = function (s, r) { return (r || document).querySelector(s); };
@@ -63,7 +62,7 @@
   var items = $$("li", list);
 
   /* ---------- scrolling the rows rides the map ---------- */
-  var trip = $("[data-trip]"), tripBox = trip && trip.parentNode, now = $("[data-way-now]"), mapBox = $(".way__map");
+  var trip = $("[data-trip]"), now = $("[data-way-now]"), mapBox = $("[data-way-map]"), phone = window.matchMedia("(max-width: 860px)");
   var legEls = {}, rider = null, lastNow = "", lastHere = -1;
 
   document.addEventListener("route:ready", function (e) {
@@ -74,14 +73,16 @@
     var bike = document.createElementNS(NS, "image");
     bike.setAttribute("href", "/assets/img/logo-bike.png"); bike.setAttribute("width", "40"); bike.setAttribute("height", "35"); bike.setAttribute("x", "-20"); bike.setAttribute("y", "-38");
     var dot = document.createElementNS(NS, "circle"); dot.setAttribute("class", "rider-dot"); dot.setAttribute("r", "6");
-    rider.appendChild(dot); rider.appendChild(bike); svg.appendChild(rider);
+    // A pale badge behind the bike so it shows over both land and sea.
+    var badge = document.createElementNS(NS, "circle"); badge.setAttribute("class", "rider-badge"); badge.setAttribute("r", "21"); badge.setAttribute("cy", "-22");
+    rider.appendChild(badge); rider.appendChild(dot); rider.appendChild(bike); svg.appendChild(rider);
     update();
   });
 
   function update() {
     if (!items.length) return;
     // The reading line: halfway down the screen, or just under the map when the map is pinned above the rows (phones).
-    var stacked = mapBox && getComputedStyle(mapBox).borderRightWidth === "0px";
+    var stacked = mapBox && phone.matches;
     var mapBottom = stacked ? mapBox.getBoundingClientRect().bottom : 0;
     var ref = stacked ? mapBottom + (window.innerHeight - mapBottom) * 0.35 : window.innerHeight * 0.5;
     var first = items[0].getBoundingClientRect(), end = items[items.length - 1].getBoundingClientRect();
@@ -107,9 +108,9 @@
       if (pos) rider.setAttribute("transform", "translate(" + pos.x.toFixed(1) + " " + pos.y.toFixed(1) + ")" + (pos.left ? " scale(-1 1)" : ""));
     }
     if (k !== lastHere) { items.forEach(function (li, j) { li.classList.toggle("is-here", j === k); }); lastHere = k; }
-    if (trip) { trip.textContent = fmt.format(Math.round(mi / 10) * 10); tripBox.classList.toggle("is-on", k >= 0 && k < rows.length); }
+    if (trip) trip.textContent = k < 0 ? "" : "about " + fmt.format(Math.round(mi / 10) * 10) + " miles";
     if (now) {
-      var r = rows[k], text = k < 0 ? "Start · Shirlaws, " + (html.dataset.departLabel || "") : k >= rows.length ? "Home · about 19,000 miles"
+      var r = rows[k], text = k < 0 ? "Start · Shirlaws, " + (html.dataset.departLabel || "") : k >= rows.length ? "Home"
         : r.region === "home" ? "Heading home" : r.ride ? (r.region === "England" ? "Riding to London" : "Riding through " + r.region) : "Bikes shipped to " + r.region;
       if (text !== lastNow) { now.textContent = text; lastNow = text; }
     }

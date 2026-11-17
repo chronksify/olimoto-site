@@ -7,8 +7,6 @@ const SRC = "src", OUT = "dist";
 // Netlify sets URL to the site's main address, so share previews point at the right place before and after the domain moves.
 const SITE_URL = (process.env.URL || "https://olimoto.co.uk").replace(/\/$/, "");
 const layout = readFileSync(join(SRC, "partials/layout.html"), "utf8");
-// A page can ask for another layout with "layout":"next" in its meta header (the roadbook redesign preview).
-const layouts = { default: layout, next: readFileSync(join(SRC, "partials/layout-next.html"), "utf8") };
 // Content the team edits in the CMS at /admin. Each data file is one CMS section.
 const site = JSON.parse(readFileSync("data/site.json", "utf8"));
 const updates = JSON.parse(readFileSync("data/updates.json", "utf8")).updates.slice().sort((a, b) => b.date.localeCompare(a.date));
@@ -105,7 +103,7 @@ for (const file of readdirSync(join(SRC, "pages")).filter((f) => f.endsWith(".ht
   const meta = JSON.parse(m[1]);
   const content = raw.slice(m[0].length);
 
-  let html = (layouts[meta.layout] || layout)
+  let html = layout
     .replace("{{content}}", content)
     .replace(/\{\{(updates|logbook|raised|donate-url|latest|patches|supporter-count|supporter-names|supporter-logos|supporter-list)(?::(\d+))?\}\}/g, (_, k, n) => blocks[k](n))
     .replaceAll("{{title}}", esc(meta.title))
