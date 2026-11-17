@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en-GB" data-depart="{{depart-iso}}" data-depart-label="{{depart-date}}" data-london-label="{{london-date}}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>document.documentElement.classList.add("js")</script>
+<title>{{title}}</title>
+<meta name="description" content="{{description}}">
+<meta property="og:title" content="{{title}}">
+<meta property="og:description" content="{{description}}">
+<meta property="og:site_name" content="oliMoto">
+<meta property="og:type" content="website">
+<meta property="og:url" content="{{page-url}}">
+<meta property="og:image" content="{{share-image}}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Oli and Joe Purkis in Honda jackets, with the oliMoto logo">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="{{share-image}}">
+<meta name="theme-color" content="#ffffff">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&display=swap">
+<link rel="stylesheet" href="/assets/css/next.css">
+{{head}}
+</head>
+<body class="page-{{slug}}">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <div class="top__row">
+    <a class="logo" href="/" aria-label="oliMoto home"><canvas class="logo__mark" data-logo="once" aria-hidden="true"></canvas><span class="logo__word">oliMoto</span></a>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
+    <nav id="site-nav" class="site-nav" aria-label="Main">
+      <a href="/expedition">Expedition</a>
+      <a href="/team">Team</a>
+      <a href="/updates">Updates</a>
+      <a href="/messages">Messages</a>
+      <a href="/sponsor">Sponsor</a>
+      <a class="btn btn--mark" href="{{donate-url}}" target="_blank" rel="noopener">Donate</a>
+    </nav>
+    <!-- The trip meter: miles ridden so far as you scroll the route. Sits where a rally bike's trip computer sits, above the roadbook. -->
+    <p class="trip" aria-hidden="true"><span class="trip__num" data-trip>0</span><span class="trip__unit">miles</span></p>
+  </div>
+</header>
+
+<main id="main" class="roll">
+{{content}}
+</main>
+
+<footer class="foot">
+  <div class="foot__grid">
+    <div class="foot__brand">
+      <a class="logo logo--big" href="/"><canvas class="logo__mark logo__mark--big" data-logo="view" aria-hidden="true"></canvas><span class="logo__word">oliMoto</span></a>
+      <p>A Guinness World Record attempt to become the youngest person to ride a motorcycle around the world, raising money for Save the Children.</p>
+    </div>
+    <div>
+      <h2>Latest update</h2>
+      {{latest}}
+      <p><a href="/updates">All updates</a></p>
+    </div>
+    <div>
+      <h2>Follow</h2>
+      <ul>
+        <li><a href="https://www.instagram.com/0limot0" target="_blank" rel="noopener">Instagram</a></li>
+        <li><a href="https://www.tiktok.com/@0limot0" target="_blank" rel="noopener">TikTok</a></li>
+        <li><a href="https://www.youtube.com/channel/UCjyzYs1X4IXNzk__nDGYuaw" target="_blank" rel="noopener">YouTube</a></li>
+        <li><a href="https://www.facebook.com/profile.php?id=61586581775558" target="_blank" rel="noopener">Facebook</a></li>
+        <li><a href="https://www.linkedin.com/company/oli-moto" target="_blank" rel="noopener">LinkedIn</a></li>
+      </ul>
+    </div>
+    <div>
+      <h2>Contact</h2>
+      <p><a href="mailto:joe.purkis@mail.com">joe.purkis@mail.com</a></p>
+      <p><a href="/contact">Send a message</a></p>
+      <p><a href="/privacy">Privacy</a></p>
+    </div>
+  </div>
+  <p class="foot__base">© 2026 oliMoto. 100% of private donations go to Save the Children.</p>
+</footer>
+<script src="/assets/js/site.js" defer></script>
+<script src="/assets/js/motion.js" defer></script>
+<script src="/assets/js/next.js" defer></script>
+{{scripts}}
+</body>
+</html>
