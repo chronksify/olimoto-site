@@ -257,16 +257,49 @@
     });
   });
 
-  /* ---------- Netlify forms (newsletter, sponsor, contact) ---------- */
+  /* ---------- form checks ---------- */
+  // A field is checked when you leave it, and its message clears as soon as you start fixing it.
+  // The send button always works: pressing it with gaps shows what's missing and moves to the first one.
+  function fieldLabel(el) { var l = el.id && $('label[for="' + el.id + '"]'); return l && l.firstChild ? l.firstChild.textContent.trim().toLowerCase() : "this"; }
+  function fieldError(el) {
+    var v = el.value.trim(), max = +el.getAttribute("maxlength");
+    if (el.required && !v) { var l = fieldLabel(el); return "Add " + (l.indexOf("your ") === 0 ? l : "your " + l) + "."; }
+    if (el.type === "email" && v && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) return "Use an email address like name@example.com.";
+    if (max > 0 && el.value.length > max) return "Shorten this to " + max + " characters.";
+    return "";
+  }
+  function showError(el, msg) {
+    var id = el.id + "-err", p = document.getElementById(id);
+    if (!msg) { el.removeAttribute("aria-invalid"); el.removeAttribute("aria-describedby"); if (p) p.remove(); return; }
+    if (!p) { p = document.createElement("p"); p.id = id; p.className = "field-error"; el.insertAdjacentElement("afterend", p); }
+    p.textContent = msg; el.setAttribute("aria-invalid", "true"); el.setAttribute("aria-describedby", id);
+  }
+  function watchForm(form) {
+    form.noValidate = true;
+    var fields = $$("input:not([type=hidden]), textarea", form).filter(function (el) { return el.id && el.name !== "bot-field"; });
+    fields.forEach(function (el) {
+      el.addEventListener("blur", function () { showError(el, fieldError(el)); });
+      el.addEventListener("input", function () { if (el.hasAttribute("aria-invalid")) showError(el, ""); });
+    });
+    return function () {
+      var first = null;
+      fields.forEach(function (el) { var m = fieldError(el); showError(el, m); if (m && !first) first = el; });
+      if (first) first.focus();
+      return !first;
+    };
+  }
+
+  /* ---------- Netlify forms (sponsor, contact) ---------- */
   $$("form[data-ajax]").forEach(function (form) {
-    var status = $(".form-status", form);
+    var status = $(".form-status", form), ready = watchForm(form);
     form.addEventListener("submit", function (e) {
       e.preventDefault();
+      if (!ready()) { status.className = "form-status small"; status.textContent = ""; return; }
       status.className = "form-status small"; status.textContent = "Sending…";
       fetch("/", { method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded" }, body: new URLSearchParams(new FormData(form)).toString() })
         .then(function (r) {
           if (!r.ok) throw r;
-          form.reset(); status.classList.add("ok"); status.textContent = form.dataset.success || "Thanks, you're signed up.";
+          form.reset(); status.classList.add("ok"); status.textContent = form.dataset.success || "Thanks. That's sent.";
         })
         .catch(function () { status.classList.add("err"); status.textContent = location.hostname === "localhost" ? "Forms work once the site is on Netlify." : "That didn't send. Check your connection and try again."; });
     });
@@ -308,9 +341,10 @@
     var status = $(".form-status", form), ta = $("textarea", form), counter = $(".counter", form), max = +ta.getAttribute("maxlength");
     function count() { var n = ta.value.length; counter.textContent = n + " / " + max; counter.classList.toggle("over", n > max); }
     ta.addEventListener("input", count); count();
+    var ready = watchForm(form);
     form.addEventListener("submit", function (e) {
       e.preventDefault();
-      $$("[aria-invalid]", form).forEach(function (el) { el.removeAttribute("aria-invalid"); });
+      if (!ready()) { status.className = "form-status"; status.textContent = ""; return; }
       var data = Object.fromEntries(new FormData(form).entries());
       var btn = $("button[type=submit]", form); btn.disabled = true;
       status.className = "form-status"; status.textContent = "Sending…";
@@ -321,7 +355,7 @@
             form.reset(); count(); status.classList.add("ok");
             status.textContent = "Thanks! Joe reads every message before it goes up, so yours will appear once he's approved it.";
           } else if (res.r.status === 422 || res.r.status === 429) {
-            status.classList.add("err"); status.textContent = res.b.error || "That message can't be sent.";
+            status.classList.add("err"); status.textContent = res.b.error || "That message didn't go through. Change the wording and send it again.";
             var bad = res.b.field && form.elements[res.b.field]; if (bad) { bad.setAttribute("aria-invalid", "true"); bad.focus(); }
           } else throw res.r;
         })
@@ -345,7 +379,20 @@
       var row = document.createElement("div"); row.className = "btn-row";
       actions.forEach(function (a) {
         var b = document.createElement("button"); b.type = "button"; b.className = "btn " + (a[1] === "approve" ? "btn--hivis" : "btn--line"); b.textContent = a[0];
-        b.onclick = function () { b.disabled = true; call("POST", { key: m.key, action: a[1] }).then(load, function (err) { modStatus.textContent = err.error || "That didn't work."; b.disabled = false; }); };
+        function send(btn) { btn.disabled = true; return call("POST", { key: m.key, action: a[1] }).then(load, function (err) { modStatus.textContent = err.error || "That didn't go through. Try again."; btn.disabled = false; }); }
+        // Approving is safe to do in one press. Deleting asks first, names whose message it is, and starts on the safe choice.
+        b.onclick = a[1] === "approve" ? function () { send(b); } : function () {
+          var box = document.createElement("div"); box.className = "mod-confirm"; box.setAttribute("role", "group");
+          var q = document.createElement("p"); q.textContent = "Delete the message from " + m.name + "? It can't be brought back.";
+          var keep = document.createElement("button"); keep.type = "button"; keep.className = "btn btn--line"; keep.textContent = "Keep message";
+          var del = document.createElement("button"); del.type = "button"; del.className = "btn btn--dark"; del.textContent = "Delete message";
+          function close() { box.remove(); row.hidden = false; b.focus(); }
+          keep.onclick = close;
+          del.onclick = function () { send(del).then(function () { if (document.body.contains(box)) close(); }); };
+          box.addEventListener("keydown", function (e) { if (e.key === "Escape") close(); });
+          var btns = document.createElement("div"); btns.className = "btn-row"; btns.appendChild(keep); btns.appendChild(del);
+          box.appendChild(q); box.appendChild(btns); row.hidden = true; el.appendChild(box); keep.focus();
+        };
         row.appendChild(b);
       });
       el.appendChild(row); return el;
@@ -362,7 +409,7 @@
         var al = document.createElement("div"); al.className = "mod-list"; out.appendChild(al);
         d.approved.forEach(function (m) { al.appendChild(item(m, [["Take down", "remove"]])); });
         modStatus.textContent = "";
-      }, function (err) { keyForm.hidden = false; modStatus.textContent = (err && err.error) || (location.hostname === "localhost" ? "Moderation works once the site is on Netlify." : "Couldn't load messages."); });
+      }, function (err) { keyForm.hidden = false; modStatus.textContent = (err && err.error) || (location.hostname === "localhost" ? "Moderation works once the site is on Netlify." : "The messages didn't load. Check the connection and open this page again."); });
     }
     keyForm.addEventListener("submit", function (e) { e.preventDefault(); key = $("#mod-key", mod).value.trim(); try { sessionStorage.setItem("olimoto-mod", key); } catch (er) {} load(); });
     if (key) load();
