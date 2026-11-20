@@ -11,14 +11,16 @@
   var DEPART_LABEL = html.dataset.departLabel || "18 July 2027", LONDON_LABEL = html.dataset.londonLabel || "21 July 2027";
   var PRE_JOURNEY = Date.now() < DEPARTURE;
 
-  // Planned route, traced from oliMoto's own route map: Scotland, London, Portugal, east across
-  // Europe and Asia, Australia, New Zealand, the USA west to east, then home. Points are rough
-  // waypoints, not booked stops. leg = how they get TO this point. label = shown on the home map.
+  // Planned route, from Joe's notes (November 2026): Scotland to London, boat from the south coast to Spain,
+  // east across Europe and Asia to Hong Kong, Australia west to east, New Zealand north to south, by air to
+  // Vancouver, down the west coast, across to Chicago, Boston and Montreal, then by air to London Heathrow.
+  // Points are rough waypoints, not booked stops. leg = how they get TO this point. label = shown on the home map.
   var ROUTE = [
     { name: "Shirlaws, Aberdeenshire", label: "Start", lat: 57.15, lng: -2.1, date: DEPART_LABEL },
-    { name: "London", region: "England", label: "London", lat: 51.51, lng: -0.13, date: LONDON_LABEL, leg: "ride" },
-    { name: "Portugal", region: "Portugal", label: "Portugal", lat: 38.72, lng: -9.14, leg: "ship" },
-    { name: "Spain", region: "Europe", lat: 40.4, lng: -3.7, leg: "ride" },
+    { name: "London", region: "Britain", label: "London", lat: 51.51, lng: -0.13, date: LONDON_LABEL, leg: "ride" },
+    { name: "South coast of England", region: "Britain", lat: 50.8, lng: -1.09, leg: "ride" },
+    { name: "Northern Spain", region: "Spain", label: "Spain", lat: 43.4, lng: -3.8, leg: "ship" },
+    { name: "Madrid", region: "Europe", lat: 40.42, lng: -3.7, leg: "ride" },
     { name: "Southern France", region: "Europe", lat: 43.7, lng: 7.26, leg: "ride" },
     { name: "Northern Italy", region: "Europe", lat: 45.4, lng: 12.3, leg: "ride" },
     { name: "The Balkans", region: "Europe", lat: 43.0, lng: 20.5, leg: "ride" },
@@ -29,19 +31,22 @@
     { name: "Central Asia", region: "Central Asia", lat: 46.5, lng: 58.0, leg: "ride" },
     { name: "Almaty", region: "Central Asia", lat: 43.2, lng: 76.9, leg: "ride" },
     { name: "Western China", region: "China", lat: 43.8, lng: 87.6, leg: "ride" },
-    { name: "Central China", region: "China", label: "China", lat: 34.3, lng: 108.9, leg: "ride" },
-    { name: "Eastern China", region: "China", lat: 30.5, lng: 119.0, leg: "ride" },
+    { name: "Central China", region: "China", lat: 34.3, lng: 108.9, leg: "ride" },
+    { name: "Hong Kong", region: "China", label: "Hong Kong", lat: 22.3, lng: 114.17, leg: "ride" },
     { name: "Perth", region: "Australia", label: "Australia", lat: -31.95, lng: 115.86, leg: "ship" },
     { name: "Adelaide", region: "Australia", lat: -34.9, lng: 138.6, leg: "ride" },
     { name: "Melbourne", region: "Australia", lat: -37.8, lng: 144.96, leg: "ride" },
-    { name: "New Zealand, South Island", region: "New Zealand", label: "New Zealand", lat: -43.5, lng: 172.6, leg: "ship" },
-    { name: "New Zealand, North Island", region: "New Zealand", lat: -36.85, lng: 174.76, leg: "ride" },
-    { name: "USA, west coast", region: "the USA", label: "USA", lat: 47.6, lng: -122.3, leg: "ship" },
-    { name: "California", region: "the USA", lat: 37.8, lng: -122.4, leg: "ride" },
-    { name: "Colorado", region: "the USA", lat: 39.7, lng: -105.0, leg: "ride" },
-    { name: "Great Lakes", region: "the USA", lat: 41.9, lng: -87.6, leg: "ride" },
-    { name: "USA, east coast", region: "the USA", lat: 42.36, lng: -71.06, leg: "ride" },
-    { name: "Home", region: "home", lat: 57.15, lng: -2.1, leg: "ship" }
+    { name: "Sydney", region: "Australia", lat: -33.87, lng: 151.21, leg: "ride" },
+    { name: "New Zealand, North Island", region: "New Zealand", label: "New Zealand", lat: -36.85, lng: 174.76, leg: "ship" },
+    { name: "New Zealand, south coast", region: "New Zealand", lat: -46.4, lng: 168.35, leg: "ride" },
+    { name: "Vancouver", region: "Canada", label: "Vancouver", lat: 49.28, lng: -123.12, leg: "fly" },
+    { name: "San Francisco", region: "the USA", lat: 37.77, lng: -122.42, leg: "ride" },
+    { name: "Los Angeles", region: "the USA", lat: 34.05, lng: -118.24, leg: "ride" },
+    { name: "San Diego", region: "the USA", lat: 32.72, lng: -117.16, leg: "ride" },
+    { name: "Chicago", region: "the USA", lat: 41.88, lng: -87.63, leg: "ride" },
+    { name: "Boston", region: "the USA", lat: 42.36, lng: -71.06, leg: "ride" },
+    { name: "Montreal", region: "Canada", label: "Montreal", lat: 45.5, lng: -73.57, leg: "ride" },
+    { name: "London Heathrow", region: "London", lat: 51.47, lng: -0.45, leg: "fly" }
   ];
   window.OLIMOTO_ROUTE = ROUTE;
 
@@ -162,16 +167,16 @@
         delay += ride ? 0.12 : 0.3;
       }
       var labels = ROUTE.filter(function (p) { return p.label; }).map(function (p) {
-        var q = proj([p.lng, p.lat]), below = /Australia|New Zealand|Portugal/.test(p.label), left = /London|Portugal|Start|New Zealand/.test(p.label);
+        var q = proj([p.lng, p.lat]), below = /Australia|New Zealand|Spain|Hong Kong/.test(p.label), left = /London|Spain|Start|New Zealand|Vancouver/.test(p.label);
         var tx = q[0] + (left ? -12 : 12), ty = q[1] + (below ? 22 : -10);
         if (p.label === "Start") ty = q[1] - 12;
         return '<circle class="stop" cx="' + q[0].toFixed(1) + '" cy="' + q[1].toFixed(1) + '" r="4.5"/>' +
-          '<text' + (/London|Portugal|Turkey|Central Asia/.test(p.label) ? ' class="minor"' : "") + ' x="' + tx.toFixed(1) + '" y="' + ty.toFixed(1) + '" text-anchor="' + (left ? "end" : "start") + '">' + esc(p.label.toUpperCase()) + '</text>';
+          '<text' + (/London|Spain|Turkey|Central Asia|Montreal/.test(p.label) ? ' class="minor"' : "") + ' x="' + tx.toFixed(1) + '" y="' + ty.toFixed(1) + '" text-anchor="' + (left ? "end" : "start") + '">' + esc(p.label.toUpperCase()) + '</text>';
       }).join("");
       // Pre-journey the live marker waits at the start. During the ride it moves to the last GPS fix.
       var s = proj([ROUTE[0].lng, ROUTE[0].lat]);
       var marker = '<g class="live"><circle class="ring" cx="' + s[0] + '" cy="' + s[1] + '" r="10"/><circle class="dot" cx="' + s[0] + '" cy="' + s[1] + '" r="6"/></g>';
-      wrap.innerHTML = '<svg class="route-svg route-svg--world" viewBox="0 40 ' + W + ' ' + (H - 70) + '" role="img" aria-label="Planned route: from Aberdeenshire to London, by boat to Portugal, east across Europe, Turkey, Central Asia and China, then Australia, New Zealand, the USA from west to east, and home">' +
+      wrap.innerHTML = '<svg class="route-svg route-svg--world" viewBox="0 40 ' + W + ' ' + (H - 70) + '" role="img" aria-label="Planned route: from Aberdeenshire to London, by boat from the south coast to Spain, east across Europe, Turkey, Central Asia and China to Hong Kong, then Australia, New Zealand, by air to Vancouver, down the west coast, across to Chicago, Boston and Montreal, and by air back to London">' +
         '<path class="land" d="' + land + '"/>' + legs + labels + marker + '</svg>' + key;
       // On the home page scrolling rides the route (motion.js). Elsewhere it draws itself once in view.
       if (reduce || !wrap.closest("[data-ride]")) { if (reduce) wrap.classList.add("in"); else onView(wrap, function () { wrap.classList.add("in"); }, 0.25); }
@@ -255,6 +260,14 @@
         if (bits.length) requestAnimationFrame(step); else running = false;
       }); }
     });
+  });
+
+  /* ---------- email links ---------- */
+  // The address is put together here, so it isn't written in the page for spam robots to collect.
+  $$("a[data-email-user]").forEach(function (a) {
+    var addr = a.dataset.emailUser + "@" + a.dataset.emailHost;
+    a.href = "mailto:" + addr;
+    if (/^email joe$/i.test(a.textContent.trim())) a.textContent = addr;
   });
 
   /* ---------- form checks ---------- */

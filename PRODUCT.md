@@ -28,7 +28,9 @@ A father and son doing this together. Oli is a teenager from Aberdeenshire who p
 ## Facts future work must preserve
 
 - Departure: Shirlaws Motorcycles, 12 noon, 18 July 2027. Official start in London: 21 July 2027. Both are editable in data/site.json.
-- Route order: Scotland, London, Portugal, Europe, Asia, Oceania, the USA, then home. About 19,000 miles, 20 countries, 4 continents.
+- Route (Joe, November 2026): Scotland to London, boat from the south coast to Spain, Madrid, east across Europe and Asia to Hong Kong, Australia (Perth, Adelaide, Melbourne, Sydney), New Zealand north to the south coast, by air to Vancouver, down the coast to San Diego, then Chicago, Boston and Montreal, and by air to London Heathrow. About 19,000 miles, 20 countries, 4 continents.
+- Say "every JustGiving donation goes to Save the Children", not just "every donation".
+- Joe's email address is never written into the page source; links assemble it in the browser.
 - Bikes: Honda CB125R (Oli) and Honda NX500 (Joe).
 - The name is "oliMoto" or "OLIMOTOS", never with a space.
 - The round logo stays. The bike on it travels clockwise round the globe.

@@ -26,7 +26,7 @@
     var h = Math.pow(Math.sin(dLat / 2), 2) + Math.cos(a.lat * t) * Math.cos(b.lat * t) * Math.pow(Math.sin(dLng / 2), 2);
     return 2 * R * Math.asin(Math.sqrt(h));
   }
-  var NICE = { "USA, east coast": "the east coast", "USA, west coast": "the west coast", "New Zealand, South Island": "South Island", "New Zealand, North Island": "North Island" };
+  var NICE = { "New Zealand, south coast": "down to the south coast", "South coast of England": "the south coast" };
   var cap = function (s) { return s.charAt(0).toUpperCase() + s.slice(1); };
 
   // Group the legs into rows: one row per stretch of riding through a region, one per shipping leg.
@@ -34,7 +34,7 @@
   for (var i = 1; i < ROUTE.length; i++) {
     var p = ROUTE[i], ride = p.leg === "ride", last = rows[rows.length - 1];
     if (last && last.ride === ride && last.region === p.region) { last.legs.push(i); last.names.push(p.name); }
-    else rows.push({ ride: ride, region: p.region, legs: [i], names: [p.name] });
+    else rows.push({ ride: ride, fly: p.leg === "fly", region: p.region, legs: [i], names: [p.name] });
   }
   var rideTotal = 0;
   rows.forEach(function (r) { r.raw = r.ride ? r.legs.reduce(function (s, i) { return s + miles(ROUTE[i - 1], ROUTE[i]); }, 0) : 0; rideTotal += r.raw; });
@@ -43,20 +43,21 @@
 
   var GLYPH = {
     ride: '<svg class="legs__glyph" viewBox="0 0 40 40" aria-hidden="true"><circle class="solid" cx="20" cy="33" r="3"/><path d="M20 30V9"/><path d="M12.5 16.5 20 8l7.5 8.5"/></svg>',
+    fly: '<svg class="legs__glyph" viewBox="0 0 40 40" aria-hidden="true"><path d="M5 21 35 7 24 34l-5-10z"/><path d="M19 24 35 7"/></svg>',
     ship: '<svg class="legs__glyph" viewBox="0 0 40 40" aria-hidden="true"><path d="M8 22h24l-4 7H12z"/><path d="M20 22V9"/><path d="M20 9l8 4-8 4"/><path d="M5 35q3.75-3 7.5 0t7.5 0 7.5 0 7.5 0"/></svg>'
   };
   list.innerHTML = rows.map(function (r, k) {
     var title, small;
-    if (r.region === "home") { title = "Home"; small = "Bikes shipped or flown back to the UK"; }
-    else if (!r.ride) { title = "To " + r.region; small = r.region === "Portugal" ? "By boat" : "Bikes shipped or flown"; }
-    else if (r.region === "England") { title = "Scotland to London"; small = "Official start in London, " + (html.dataset.londonLabel || ""); }
+    if (r.region === "London") { title = "Back to London"; small = "By air to Heathrow"; }
+    else if (!r.ride) { title = "To " + r.region; small = r.region === "Spain" ? "By boat from the south coast" : r.fly ? "By air" : "Bikes shipped or flown"; }
+    else if (r.region === "Britain") { title = "Scotland to the south coast"; small = "Official start in London, " + (html.dataset.londonLabel || ""); }
     else {
       title = cap(r.region);
       small = r.names.map(function (n) { return NICE[n] || n; }).filter(function (n) { return n.toLowerCase() !== r.region.toLowerCase(); }).join(", ");
     }
     r.title = title;
-    var mi = r.ride || r.region === "home" ? '<span class="legs__mi">about ' + fmt.format(Math.round(r.to / 100) * 100) + " miles</span>" : "";
-    return '<li><span class="legs__n">' + String(k + 1).padStart(2, "0") + "</span>" + (r.ride ? GLYPH.ride : GLYPH.ship) +
+    var mi = r.ride || r.region === "London" ? '<span class="legs__mi">about ' + fmt.format(Math.round(r.to / 100) * 100) + " miles</span>" : "";
+    return '<li><span class="legs__n">' + String(k + 1).padStart(2, "0") + "</span>" + (r.ride ? GLYPH.ride : r.fly ? GLYPH.fly : GLYPH.ship) +
       "<div><b>" + title + "</b>" + (small ? "<small>" + small + "</small>" : "") + "</div>" + mi + "</li>";
   }).join("");
   var items = $$("li", list);
@@ -110,8 +111,8 @@
     if (k !== lastHere) { items.forEach(function (li, j) { li.classList.toggle("is-here", j === k); }); lastHere = k; }
     if (trip) trip.textContent = k < 0 ? "" : "about " + fmt.format(Math.round(mi / 10) * 10) + " miles";
     if (now) {
-      var r = rows[k], text = k < 0 ? "Start · Shirlaws, " + (html.dataset.departLabel || "") : k >= rows.length ? "Home"
-        : r.region === "home" ? "Heading home" : r.ride ? (r.region === "England" ? "Riding to London" : "Riding through " + r.region) : "Bikes shipped to " + r.region;
+      var r = rows[k], text = k < 0 ? "Start · Shirlaws, " + (html.dataset.departLabel || "") : k >= rows.length ? "Back in London"
+        : r.region === "London" ? "Flying back to London" : r.ride ? "Riding through " + r.region : r.fly ? "Flying to " + r.region : r.region === "Spain" ? "By boat to Spain" : "Bikes shipped to " + r.region;
       if (text !== lastNow) { now.textContent = text; lastNow = text; }
     }
   }
